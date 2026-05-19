@@ -112,18 +112,7 @@ img{
     top:5em;
     left:5em;
 }
-.CARDBOARD-SIGN A{
-    COLOR:black;
-}
-.CARDBOARD-SIGN{
-    MAX-WIDTH:90%;   
-    MARGIN:AUTO;
-    MARGIN-TOP:2EM;
-    border-top:solid;
-    MARGIN-BOTTOM:1EM;
-    OVERFLOW:SCROLL;
-    FONT-SIZE:1EM;
-}
+
 .timestampdata{
     DISPLAY:NONE;
 }
@@ -154,21 +143,6 @@ table, form{
     }
 </style>
 <script>
-
-
-codesquaresize = 170;
-marginsize = 40;
-fontsize = 12;
-//globalurl = "http://www.trashrobot.org/qrcode.html";
-globalurl = window.location.href;
-qrcode = new QRCode(document.getElementById("qrcode"), {
-	text: globalurl,
-	width: codesquaresize,
-	height: codesquaresize,
-	colorDark : "#000000",
-	colorLight : "#ffffff",
-	correctLevel : QRCode.CorrectLevel.H
-});
 
 files = [];
 
