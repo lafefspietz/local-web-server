@@ -74,10 +74,10 @@ if exist "%APACHE_DIR%\htdocs\index.html" del /F /Q "%APACHE_DIR%\htdocs\index.h
 echo [6/6] Copy .bat files to desktop...
 
 copy "%SETUP_DIR%run-local-web-server.bat" "%USERPROFILE%\Desktop\" /Y >nul
-copy "%SETUP_DIR%run_jupyter.bat" "%USERPROFILE%\Desktop\" /Y >nul
+copy "%SETUP_DIR%run-jupyter.bat" "%USERPROFILE%\Desktop\" /Y >nul
 
 :: Pull down your specific production framework file directly into htdocs [1.12]
-powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing -Uri 'https://raw.githubusercontent.com/LafeLabs/science-instrument/refs/heads/main/replicate-file-set.php' -OutFile '%APACHE_DIR%\htdocs\replicate-file-set.php'"
+powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing -Uri 'https://raw.githubusercontent.com/lafefspietz/local-web-server/refs/heads/main/replicate-file-set.php' -OutFile '%APACHE_DIR%\htdocs\replicate-file-set.php'"
 
 :: Navigate to the folder where the script was downloaded
 cd /d "%APACHE_DIR%\htdocs"

@@ -1,5 +1,5 @@
 <?php
-$fileseturl = "https://raw.githubusercontent.com/lafelabs/science-instrument/refs/heads/main/file-set.json";
+$fileseturl = "https://raw.githubusercontent.com/lafefspietz/local-web-server/refs/heads/main/file-set.json";
 
 if(isset($_GET["fileseturl"])){
     $fileseturl = $_GET["fileseturl"];
