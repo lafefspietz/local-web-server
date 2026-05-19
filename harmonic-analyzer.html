@@ -1,0 +1,281 @@
+ <!doctype html>
+<html>
+<head>
+ <!-- 
+ harmonic analyzer
+
+-->
+
+<!--Stop Google:-->
+<META NAME="robots" CONTENT="noindex,nofollow">
+    
+    
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA/ADbAPwAKgANAPwAP/wAAAMDAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUABQAFAAUABQAFAAUAAQAFAAUAAgABAAUABQACAAAABQAFAAAAAAAFAAQAAAAAAAUABAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAADAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADu7gAA7u4AAO7uAADu7wAA7v8AAO7/AADu/wAA7/8AAO//AADv/wAA7/8AAO//AADv/wAA//8AAP//AAD//wAA" rel="icon" type="image/x-icon">
+
+<script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.js"></script>
+
+<title>harmonic analyzer</title>
+
+</head>
+<body>
+
+
+<div id = "scroll">
+
+<h1>harmonic analyzer</h1>
+<P>
+<a href = "index.html">HOME</a>
+</P>
+<p>Click screen to start/stop tone. Mouse wheel controls frequency. Red curve is response at tone frequency, green is twice that frequency, blue is three times, and purple is four times.</p>
+</div>
+
+<script>
+
+var soundFile, mic, osc,fft;
+
+var analyzer;
+var numSamples = 1024;
+
+// Array of amplitude values (-1 to +1) over time.
+var samples = [];
+var currentSource = "mic";
+amp = 1;
+freq = 666;//Hz
+oscon= false;
+frequency_index = 47;
+
+squaresize = 700;
+if(innerWidth > innerHeight){
+    squaresize = innerHeight;
+    document.getElementById("scroll").style.top = "0px";
+    document.getElementById("scroll").style.width = (innerWidth - squaresize - 20).toString() + "px";    
+}
+else{
+    squaresize = innerWidth;
+
+    document.getElementById("scroll").style.height = (innerHeight - squaresize - 20).toString() + "px";
+    document.getElementById("scroll").style.width = "100%";    
+    
+}
+
+
+function setup() {
+  fft = new p5.FFT();
+  fft.setInput(mic);
+  
+  if(innerWidth > innerHeight){
+    squaresize = innerHeight;
+ 
+    }
+    else{
+        squaresize = innerWidth;
+    }
+
+  createCanvas(squaresize-20, squaresize-20);    
+  
+  spectrum = fft.analyze();
+  nyquistFreq = sampleRate() / 2;
+  binFreq = nyquistFreq / (spectrum.length);
+  freq = frequency_index*binFreq;
+  osc = new p5.SinOsc(); // set frequency and type
+  osc.amp(amp);
+  osc.start();
+  osc.freq(freq);
+  strokeWeight(2);  
+  background(255);
+  noFill();
+  stroke(0);
+
+//  analyzer = new p5.FFT(0, numSamples);
+
+  // set up various inputs. We'll toggle them when key "T" is pressed.
+  mic = new p5.AudioIn();
+  mic.start();
+  //analyzer.setInput(mic);
+  
+  fft = new p5.FFT();
+  fft.setInput(mic);
+
+  background(255);
+  frameRate(25);
+ 
+
+}
+
+
+frameIndex= 0;
+p = 0;
+plast = 0;
+gain = 1;
+inLine = false;
+
+
+data = {};
+data.f0 =   [];
+data.a0 =   [];
+data.a1 =   [];
+data.a2 =   [];
+data.a3 =   [];
+data.time = [];
+
+starttime = Date.now()/1000;
+
+function draw(){
+
+  // frameRate(25);
+  // background(255);
+  // get a buffer of 1024 samples over time.
+  
+    spectrum = fft.analyze();
+    nyquistFreq = sampleRate() / 2;
+    binFreq = nyquistFreq / (spectrum.length);
+    freq = frequency_index*binFreq;
+    osc.freq(freq);
+
+    
+    data.time.push(Date.now()/1000 - starttime);
+    data.f0.push(freq);
+    data.a0.push(spectrum[frequency_index]);
+    data.a1.push(spectrum[2*frequency_index]);
+    data.a2.push(spectrum[3*frequency_index]);
+    data.a3.push(spectrum[4*frequency_index]);
+
+    background(255);
+
+
+    strokeWeight(1);
+    fill(0);
+    textSize(50);
+    text("f = " + freq.toString() + " Hz",60,60);
+
+    noFill();
+    stroke("red");
+    strokeWeight(2);
+    beginShape();
+    for (var index = 0; index < data.a0.length; index++){
+        vertex(index, map(data.a0[index],0,255,height,0));
+    }
+    endShape();
+    stroke("green");
+    strokeWeight(2);
+    beginShape();
+    for (var index = 0; index < data.a1.length; index++){
+        vertex(index, map(data.a1[index],0,255,height,0));
+    }
+    endShape();
+    stroke("blue");
+    strokeWeight(2);
+    beginShape();
+    for (var index = 0; index < data.a1.length; index++){
+        vertex(index, map(data.a2[index],0,255,height,0));
+    }
+    endShape();
+    stroke("purple");
+    strokeWeight(2);
+    beginShape();
+    for (var index = 0; index < data.a1.length; index++){
+        vertex(index, map(data.a3[index],0,255,height,0));
+    }
+    endShape();
+
+    
+    fill("red");
+    stroke("red");
+    circle_diameter = 15;
+    circle(frameIndex,map(spectrum[frequency_index],0,255,height,0), circle_diameter);
+    fill("green");
+    stroke("green");
+    circle(frameIndex,map(spectrum[2*frequency_index],0,255,height,0), circle_diameter);
+    fill("blue");
+    stroke("blue");
+    circle(frameIndex,map(spectrum[3*frequency_index],0,255,height,0), circle_diameter);
+    fill("purple");
+    stroke("purple");
+    circle(frameIndex,map(spectrum[4*frequency_index],0,255,height,0), circle_diameter);
+
+
+   frameIndex++;
+   if(frameIndex > width){
+       frameIndex = 0;
+       //save plot
+       //save data
+
+        data.f0 =   [];
+        data.a0 =   [];
+        data.a1 =   [];
+        data.a2 =   [];
+        data.a3 =   [];
+        data.time = [];
+
+   }
+
+    stroke(0);
+
+}
+
+
+function keyPressed() {
+
+    if(key == 's'){
+
+    }
+
+}
+
+
+
+function mouseClicked() {
+  
+  if(!oscon){
+      osc.start();
+  }
+  else{
+      osc.stop();
+  }
+  oscon = !oscon;
+    
+}
+
+
+function mouseWheel(event) {
+  if (event.delta > 0) {
+    direction = 'mouse wheel down';
+    frequency_index--;
+  } 
+  else {
+    frequency_index++;
+    
+  }
+  // Uncomment to prevent any default behavior.
+  // return false;
+}
+
+
+</script>
+<style>
+a{
+    color:blue;
+}
+body{
+    overflow:hidden;
+    font-family:Arial;
+}
+main{
+    border:solid;
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+#scroll{
+    position:absolute;
+    bottom:0px;
+    right:0px;
+    background-color:#e0e0e0;
+    oveflow:scroll;
+    padding:1em 1em 1em 1em;
+}
+</style>
+
+</body>
+</html>
