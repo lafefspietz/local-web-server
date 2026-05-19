@@ -19,3 +19,7 @@ As these become out-dated, this respository will be updated with newer versions 
 
 Jupyter notebooks assume you already have that working. 
 
+Windows firewall needs to allow apache httpd to see the world, which it should, but if XAMPP was previously installed it could need to be manually added. 
+
+
+
