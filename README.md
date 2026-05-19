@@ -7,7 +7,7 @@ To install, download and unzip the setup folder:
 
 ## [serversetup.zip](serversetup.zip)
 
-And run the file "install-local-server.bat" to install and run the server. Then to run the server again, click the .bat file copied to the desktop, called "run-local-web-server.bat" and to run Jupyter run the bat file "run-jupyter.bat".
+And run the file "install-local-server.bat" as Administrator(THIS IS REQUIRED!) to install and run the server. Then to run the server again, click the .bat file copied to the desktop, called "run-local-web-server.bat" and to run Jupyter run the bat file "run-jupyter.bat".
 
 This is currently using downloaded .zip files from [Apache Lounge](https://www.apachelounge.com/download/) and [php.net](https://www.php.net/downloads.php). 
 
