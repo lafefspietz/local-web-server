@@ -19,8 +19,8 @@ set "PHP_DIR=%SERVER_ROOT%\PHP"
 set "SETUP_DIR=%~dp0"
 
 :: Step 1: Verify all 4 required local assets are present before running
-if not exist "%SETUP_DIR%httpd-2.4.67-260504-Win64-VS18.zip" (
-    echo [ERROR] Missing 'httpd-2.4.67-260504-Win64-VS18.zip' in this folder!
+if not exist "%SETUP_DIR%httpd-2.4.68-260610-Win64-VS18.zip" (
+    echo [ERROR] Missing 'httpd-2.4.68-260610-Win64-VS18.zip' in this folder!
     pause
     exit /b
 )
@@ -39,15 +39,15 @@ if not exist "%SETUP_DIR%php.ini" (
     pause
     exit /b
 )
-phpphp
+
 echo [1/5] Creating Directory Structure at %SERVER_ROOT%...
 if not exist "%SERVER_ROOT%" mkdir "%SERVER_ROOT%"
 if not exist "%APACHE_DIR%" mkdir "%APACHE_DIR%"
 if not exist "%PHP_DIR%" mkdir "%PHP_DIR%"
 
 echo [2/5] Extracting Local Pre-Downloaded Archives...
-echo Extracting Apache 2.4.67...
-powershell -Command "Expand-Archive -Path '%SETUP_DIR%httpd-2.4.67-260504-Win64-VS18.zip' -DestinationPath '%SERVER_ROOT%\temp_apache' -Force"
+echo Extracting Apache 2.4.68...
+powershell -Command "Expand-Archive -Path '%SETUP_DIR%httpd-2.4.68-260610-Win64-VS18.zip' -DestinationPath '%SERVER_ROOT%\temp_apache' -Force"
 xcopy "%SERVER_ROOT%\temp_apache\Apache24\*" "%APACHE_DIR%\" /E /I /Y >nul
 rmdir /S /Q "%SERVER_ROOT%\temp_apache"
 

@@ -13,7 +13,7 @@ This is currently using downloaded .zip files from [Apache Lounge](https://www.a
 
 Specifically, the PHP install file is the 64 bit "thread safe" zip called php-8.5.6-Win32-vs17-x64.zip, which is PHP 8.5.6. 
 
-Apache is from the file  httpd-2.4.67-260504-Win64-VS18.zip, which is Apache 2.4.67.
+Apache is from the file  httpd-2.4.68-260610-Win64-VS18.zip, which is Apache 2.4.68.[updated to most recent June 16, 2026]
 
 As these become out-dated, this respository will be updated with newer versions of both PHP and Apache.  If you want to fork this and keep it up to date yourself, just keep udating the .zip files and and re-installing and it should be possible to lose all connection to this initial instance and still run.  
 
@@ -28,3 +28,7 @@ to fix the problem where a [Windows service that doesn't seem to be useful](http
 ```
 Set-Service -Name "iphlpsvc" -StartupType Disabled
 ```
+
+To update to a newer version of apache manually without running the script after you already have it all working, download the latest Apache for win64, unzip the folder, stop the server from running, and delete ONLY the old folders "bin", "include", "lib", and "modules" and replace them with the folders from the new Apache folder you just downloaded, then re-start the server.
+
+The folders ofr Apache version 2.4.68 can be found in [this zip file](version_updates_folders_apache_2.4.68.zip)
