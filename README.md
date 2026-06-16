@@ -31,4 +31,4 @@ Set-Service -Name "iphlpsvc" -StartupType Disabled
 
 To update to a newer version of apache manually without running the script after you already have it all working, download the latest Apache for win64, unzip the folder, stop the server from running, and delete ONLY the old folders "bin", "include", "lib", and "modules" and replace them with the folders from the new Apache folder you just downloaded, then re-start the server.
 
-The folders ofr Apache version 2.4.68 can be found in [this zip file](version_updates_folders_apache_2.4.68.zip)
+The folders for Apache version 2.4.68 can be found in [this zip file](version_updates_folders_apache_2.4.68.zip)
